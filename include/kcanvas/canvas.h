@@ -424,7 +424,7 @@ namespace k_canvas
         // Return new path constructor helper
         static Constructor Create();
 
-    private:
+    //private:
         // there's no sense to construct empty path
         kPath();
         // this type of object can NOT be copied and reassigned to other

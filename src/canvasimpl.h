@@ -222,6 +222,7 @@ namespace k_canvas
                 return getFactory()->getResource(data);
             }
 
+            static CanvasFactory* getFactory();
             static void destroyFactory();
 
         protected:
@@ -242,8 +243,6 @@ namespace k_canvas
         protected:
             CanvasFactory();
             virtual ~CanvasFactory();
-
-            static CanvasFactory* getFactory();
 
         private:
             static CanvasFactory *factory;

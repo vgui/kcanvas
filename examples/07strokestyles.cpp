@@ -11,6 +11,7 @@
         Stroke styles and pens example
 */
 
+#include <cstdio>
 #include "kcanvas/canvas.h"
 
 

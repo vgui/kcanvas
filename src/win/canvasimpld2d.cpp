@@ -11,9 +11,10 @@
         canvas API Direct2D implementation
 */
 
-#include "canvasimpld2d.h"
 #include <codecvt>
 #include <locale>
+#include <algorithm>
+#include "canvasimpld2d.h"
 
 
 using namespace c_util;
@@ -227,7 +228,7 @@ void kPathImplD2D::PolyLineTo(const kPoint *points, size_t count)
 
     D2D1_POINT_2F cache[32];
     while (count) {
-        size_t cnt = min(count, 32);
+        size_t cnt = std::min(count, static_cast<size_t>(32));
         for (size_t n = 0; n < cnt; n++) {
             cache[n] = p2pD2D(*points++);
         }
@@ -245,7 +246,7 @@ void kPathImplD2D::PolyBezierTo(const kPoint *points, size_t count)
 
     size_t curr_pt = 0;
     while (curr_pt < count) {
-        size_t cnt = min(30, count - curr_pt) / 3;
+        size_t cnt = std::min(static_cast<size_t>(30), count - curr_pt) / 3;
         if (cnt == 0) {
             break;
         }
@@ -989,7 +990,7 @@ ID2D1PathGeometry* kCanvasImplD2D::GeometryFromPoints(const kPoint *points, size
 
     size_t curr_pt = 1;
     while (curr_pt < count) {
-        size_t cnt = min(32, count - curr_pt);
+        size_t cnt = std::min(static_cast<size_t>(32), count - curr_pt);
         D2D1_POINT_2F pts[32];
         for (size_t n = 0; n < cnt; n++) {
             pts[n] = p2pD2D(points[n + curr_pt]);
@@ -1017,7 +1018,7 @@ ID2D1PathGeometry* kCanvasImplD2D::GeometryFromPointsBezier(const kPoint *points
 
     size_t curr_pt = 1;
     while (curr_pt < count) {
-        size_t cnt = min(30, count - curr_pt) / 3;
+        size_t cnt = std::min(static_cast<size_t>(30), count - curr_pt) / 3;
         if (cnt == 0) {
             break;
         }
@@ -1393,16 +1394,16 @@ void kD2DFontAllocator::deleteResource(kD2DFont *font)
 
 
 typedef HRESULT (WINAPI *D2D1CreateFactoryPtr) (
-    __in D2D1_FACTORY_TYPE factoryType,
-    __in REFIID riid,
-    __in_opt CONST D2D1_FACTORY_OPTIONS *pFactoryOptions,
-    __out void **ppIFactory
+    D2D1_FACTORY_TYPE factoryType,
+    REFIID riid,
+    CONST D2D1_FACTORY_OPTIONS *pFactoryOptions,
+    void **ppIFactory
 );
 
 typedef HRESULT __declspec(dllimport) (WINAPI *DWriteCreateFactoryPtr) (
-    __in DWRITE_FACTORY_TYPE factoryType,
-    __in REFIID iid,
-    __out IUnknown **factory
+    DWRITE_FACTORY_TYPE factoryType,
+    REFIID iid,
+    IUnknown **factory
 );
 
 CanvasFactoryD2D::CanvasFactoryD2D() :

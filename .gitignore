@@ -1,3 +1,4 @@
+CMakeLists.txt.user
 build/vs2012/Release/
 build/vs2012/Debug/
 bin/
